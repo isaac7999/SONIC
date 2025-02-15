@@ -1,41 +1,85 @@
-# Compiled Lua sources
-luac.out
+local DeltaGUI = require("DeltaGUI")
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+-- Cria a janela principal
+local window = DeltaGUI.createWindow("SONIC", 400, 300)
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
+-- Define a posição da janela no centro da tela
+window:setPosition(display.contentCenterX - window.width / 2, display.contentCenterY - window.height / 2)
 
-# Precompiled Headers
-*.gch
-*.pch
+-- Cria o botão de minimizar em forma de quadrado
+local minimizeButton = DeltaGUI.createButton({
+    label = "▢",
+    x = 370,
+    y = 10,
+    width = 20,
+    height = 20,
+    onPress = function()
+        window:setVisible(false)
+    end
+})
+window:addComponent(minimizeButton)
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
+-- Cria o rótulo com a descrição e o link para o Discord
+local discordLabel = DeltaGUI.createLabel({
+    text = "Entre no nosso Discord: https://discord.gg/HsQUdUna",
+    x = 10,
+    y = 250,
+    width = 380,
+    height = 20
+})
+window:addComponent(discordLabel)
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+-- Cria o botão "Passa sensi"
+local sensiButton = DeltaGUI.createButton({
+    label = "Passa sensi",
+    x = display.contentCenterX - 50,
+    y = display.contentCenterY - 20,
+    width = 100,
+    height = 40,
+    onPress = function()
+        numberField:setVisible(true)
+    end
+})
+window:addComponent(sensiButton)
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+-- Cria o campo numérico
+local numberField = DeltaGUI.createNumericField({
+    value = 5,
+    min = 0,
+    max = 10,
+    x = display.contentCenterX - 50,
+    y = display.contentCenterY + 40,
+    width = 100,
+    height = 40,
+    onChange = function(value)
+        if value > 5 then
+            -- Aumenta a lentidão da tela
+            setGameSpeed("slow")
+        else
+            -- Deixa a tela mais fluida
+            setGameSpeed("fast")
+        end
+    end
+})
+numberField:setVisible(false) -- Inicialmente invisível
+window:addComponent(numberField)
 
+-- Função para configurar a velocidade do jogo
+function setGameSpeed(speed)
+    if speed == "slow" then
+        -- Código para aumentar a lentidão do jogo
+    elseif speed == "fast" then
+        -- Código para deixar a tela mais fluida
+    end
+end
+
+-- Mostra a janela
+window:show()
+
+-- Função principal para configurar a interface gráfica
+local function setupGUI()
+    window:show()
+end
+
+-- Inicializa a configuração da interface gráfica
+setupGUI()
